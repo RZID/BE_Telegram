@@ -1,0 +1,4 @@
+node_modules/
+public/attachment/*
+public/images/group_profile/*
+public/images/profile_user/*
