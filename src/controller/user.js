@@ -76,14 +76,27 @@ module.exports = {
     },
     getUser: (req, res) => {
         if (req.query.email, req.query.me) {
-            model.getUser(req.query.email, req.query.me).then((response) => {
-                responser.ok(res, response.filter(el => el.email_user != req.query.me))
+            model.getUser(req.query.email).then((response) => {
+                responser.ok(res, response)
             }).catch((err) => {
                 console.log(err)
                 responser.ise(res, err)
             })
         } else {
             responser.conflict(res, 'Ooops...')
+        }
+    },
+    addRooms: (req, res) => {
+        if (req.body.participant1 && req.body.participant2) {
+            const unique = jwt.sign({ 1: req.body.participant1, 2: req.body.participant2 }, process.env.JWT_SECRET)
+            model.addNewRoom(unique).then(() => {
+                const arrayUsers = [req.body.participant1, req.body.participant2]
+                arrayUsers.map(el => model.addParticipant(el, unique))
+            }).catch(err => responser.ise(res, err))
+            responser.ok(res, unique)
+
+        } else {
+            responser.conflict(res, 'Fill all input!')
         }
     }
 }

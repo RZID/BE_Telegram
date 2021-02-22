@@ -29,7 +29,7 @@ module.exports = {
                     if (result.length > 0) {
                         reject(new Error(409))
                     } else {
-                        conn.query("INSERT INTO tb_user (name_user, email_user, pass_user, isactive_user) VALUES (?,?,?,?)", [name, email, pw, 0], (err, result) => {
+                        conn.query("INSERT INTO tb_user (name_user, email_user, pass_user, isactive_user) VALUES (?,?,?,?)", [name, email, pw, 1], (err, result) => {
                             if (err) {
                                 reject(new Error(500))
                             } else {
@@ -102,17 +102,41 @@ module.exports = {
             })
         })
     },
-    getUser: (email, me) => {
+    getUser: (email) => {
         return new Promise((resolve, reject) => {
-            conn.query(`SELECT tb_user.name_user, tb_user.email_user, tb_photo.img_photo, tb_participant.* 
-            FROM tb_participant 
-            LEFT JOIN tb_user ON tb_participant.id_user = tb_user.id_user 
-            LEFT JOIN tb_photo ON tb_user.id_user = tb_photo.id_user 
-            WHERE tb_user.email_user = ?`, [email], (err, result) => {
+            conn.query(`SELECT tb_user.email_user, tb_user.name_user, tb_user.bio_user, tb_photo.* FROM tb_user LEFT JOIN tb_photo ON tb_photo.id_user = tb_user.id_user WHERE email_user = '${email}'`, (err, res) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    resolve(res)
+                }
+            })
+        })
+    },
+    addNewRoom: (unique) => {
+        return new Promise((resolve, reject) => {
+            conn.query(`INSERT INTO tb_room (unique_room, type_room) VALUES (?, 1)`, [unique], (err, result) => {
                 if (err) {
                     reject(new Error(err))
                 } else {
                     resolve(result)
+                }
+            })
+        })
+    },
+    addParticipant: (email, unique) => {
+        return new Promise((resolve, reject) => {
+            conn.query(`SELECT id_user FROM tb_user WHERE email_user = ?`, [email], (err, result) => {
+                if (err) {
+                    reject(new Error(err))
+                } else {
+                    conn.query(`INSERT INTO tb_participant (unique_room, id_user) VALUES (?,?)`, [unique, result[0].id_user], (err, result) => {
+                        if (err) {
+                            reject(new Error(err))
+                        } else {
+                            resolve(result)
+                        }
+                    })
                 }
             })
         })
