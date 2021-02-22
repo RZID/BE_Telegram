@@ -37,8 +37,8 @@ This is an API application for a telegram-like chat application created using So
    Used for upload files to the server.
    
 9.  MySql2
-   
-   Used for making connection to SQL database
+    
+    Used for making connection to SQL database
 
 10. Socket.IO
    
