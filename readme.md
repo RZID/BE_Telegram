@@ -11,7 +11,7 @@ This is an API application for a telegram-like chat application created using So
 2. Body Parser
    
    Used for catching form requested via body.
-   
+
    
 3. CORS
    
@@ -39,6 +39,7 @@ This is an API application for a telegram-like chat application created using So
 9.  MySql2
    
    Used for making connection to SQL database
-11. Socket.IO
+
+10. Socket.IO
    
     Used for make realtime request and response from and to server
