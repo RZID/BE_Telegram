@@ -52,7 +52,7 @@ module.exports = {
         );
       })
       .catch((err) => {
-        if ((err.message = 409)) {
+        if (err.message == 409) {
           responser.conflict(res, "User Already Exists!");
         } else {
           responser.ise(res, err);
