@@ -43,3 +43,16 @@ This is an API application for a telegram-like chat application created using So
 10. Socket.IO
    
     Used for make realtime request and response from and to server
+    
+### How To Use ?
+1. Clone this repository
+2. Don't forget to run `npm install` or `npm i` to install libraries that required for this service
+3. Import database
+4. Fill ENV :
+   - `PORT` = Fill with port that service will be run
+   - `DB_HOST` = Fill with hostname in your database configuration
+   - `DB_USER` = fill with username in your database configuration
+   - `DB_PASS` = fill with password in your database configuration
+   - `DB_NAME` = fill with database name
+   - `JWT_SECRET` =  fill with the unique value due to signature verifier on JWT
+5. Run `npm run start` or `nodemon` for run this service
